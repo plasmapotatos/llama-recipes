@@ -25,7 +25,13 @@ class alpaca_dataset:
     test_split: str = "val"
     data_path: str = "src/llama_recipes/datasets/alpaca_data.json"
     
-    
+
+@dataclass
+class travelplanner_dataset:
+    dataset: str = "travelplanner_dataset"
+    train_split: str = "train"
+    test_split: str = "validation"    
+
 @dataclass
 class custom_dataset:
     dataset: str = "custom_dataset"
