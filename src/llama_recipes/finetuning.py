@@ -200,13 +200,14 @@ def main(**kwargs):
             model.to("cuda")
 
     dataset_config = generate_dataset_config(train_config, kwargs)
-
+    print(f"Dataset Config: {dataset_config}")
      # Load and preprocess the dataset for training and validation
     dataset_train = get_preprocessed_dataset(
         tokenizer,
         dataset_config,
         split="train",
     )
+    print(dataset_train.__len__())
 
     if not train_config.enable_fsdp or rank == 0:
         print(f"--> Training Set Length = {len(dataset_train)}")

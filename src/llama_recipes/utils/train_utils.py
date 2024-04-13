@@ -91,7 +91,7 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
             model.train()
             total_loss = 0.0
             total_length = len(train_dataloader)//gradient_accumulation_steps
-            pbar = tqdm(colour="blue", desc=f"Training Epoch: {epoch+1}", total=total_length, dynamic_ncols=True)
+            pbar = tqdm(colour="blue", desc=f"Training Epoch: {epoch+1}/{train_config.num_epochs}", total=total_length, dynamic_ncols=True)
             for step, batch in enumerate(train_dataloader):
                 total_train_steps += 1
                 # stop when the maximum number of training steps is reached

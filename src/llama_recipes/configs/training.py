@@ -16,7 +16,7 @@ class train_config:
     gradient_accumulation_steps: int=1
     gradient_clipping: bool = False
     gradient_clipping_threshold: float = 1.0
-    num_epochs: int=3
+    num_epochs: int=1
     max_train_step: int=0
     max_eval_step: int=0
     num_workers_dataloader: int=1
@@ -27,7 +27,7 @@ class train_config:
     use_fp16: bool=False
     mixed_precision: bool=True
     val_batch_size: int=1
-    dataset = "samsum_dataset"
+    dataset = "travelplanner_dataset"
     peft_method: str = "lora" # None , llama_adapter, prefix
     use_peft: bool=False
     output_dir: str = "PATH/to/save/PEFT/model"
