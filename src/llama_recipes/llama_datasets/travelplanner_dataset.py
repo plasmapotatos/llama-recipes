@@ -22,7 +22,7 @@ class travelplanner(Dataset):
         try:
             self.dataset = load_dataset(
                 "csv",
-                data_files={"train": "llama_datasets/travelplanner_train.csv"},  # "eval": "grammar_validation.csv"},
+                data_files={"train": "travelplanner_train.csv"},  # "eval": "grammar_validation.csv"},
                 delimiter=",",
             )
         except Exception as e:
@@ -47,11 +47,15 @@ class travelplanner(Dataset):
 
         input_ = example_batch["query"]
         target_ = example_batch["annotated_plan"]
+        context_ = example_batch["reference_information"]
 
-        prompt = f"Create a Travel Plan from the following prompt: {input_}\n---\Plan: "
+        prompt = f"""You are a proficient planner. Based on the provided information and query, please give me a detailed plan, including specifics such as flight numbers (e.g., F0123456), restaurant names, and accommodation names. Note that all the information in your plan should be derived from the provided data. You must adhere to the format given in the example. Additionally, all details should align with commonsense. The symbol '-' indicates that information is unnecessary. For example, in the provided sample, you do not need to plan after returning to the departure city. When you travel to two cities in one day, you should note it in the 'Current City' section as in the example (i.e., from A to B).                ***** Example Ends *****
+                Given information: {context_}
+                Query: {input_}
+                Travel Plan:"""
         prompt_ids = self.tokenizer.encode(self.tokenizer.bos_token + prompt, add_special_tokens=False)
         label_ids = self.tokenizer.encode(target_ + self.tokenizer.eos_token, add_special_tokens=False)
-
+        print(len(prompt_ids), len(label_ids))
         sample = {
             "input_ids": prompt_ids + label_ids,
             "attention_mask": [1] * len(prompt_ids + label_ids),
@@ -83,4 +87,5 @@ def get_dataset(
 if(__name__ == "__main__"):
     tokenizer = LlamaTokenizerFast.from_pretrained("hf-internal-testing/llama-tokenizer")
     dataset = get_dataset(None, tokenizer, "travelplanner_train.csv")
-    print(len(dataset))
+    for(i, data) in enumerate(dataset):
+        data
